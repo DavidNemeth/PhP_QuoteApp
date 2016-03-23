@@ -11,22 +11,6 @@
 |
 */
 
-Route::get('/', function () {
-    return view('home');
-})->name('home');
-
-Route::group(['prefix' => 'do'],function(){
-    
-    Route::get('/{action}/{name?}', [
-        'uses' => 'NiceActionController@getNiceAction',
-        'as' => 'niceaction'
-        ]);
-        
-    Route::post('/', [
-            'uses' => 'NiceActionController@postNiceAction',
-            'as' => 'benice'
-        ]);
-});
 
 
 /*
@@ -40,6 +24,22 @@ Route::group(['prefix' => 'do'],function(){
 |
 */
 
-Route::group(['middleware' => ['web']], function () {
-    //
+Route::group(['middleware' => ['web']],function(){
+    
+    Route::get('/', [
+        'uses' => 'NiceActionController@getHome',
+        'as' => 'home'
+    ]);
+
+    Route::group(['prefix' => 'do'],function(){
+    Route::get('/{action}/{name?}', [
+        'uses' => 'NiceActionController@getNiceAction',
+        'as' => 'niceaction'
+        ]);
+        
+    Route::post('/add_action', [
+            'uses' => 'NiceActionController@postInsertNiceAction',
+            'as' => 'add_action'
+        ]);
+    });
 });
