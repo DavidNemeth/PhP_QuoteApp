@@ -1,4 +1,5 @@
 @extends('layouts.master') @section('content')
+<script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
     <div class="centered">
         @foreach($actions as $action)
             <a href="{{ route('niceaction',['action' => lcfirst($action->name)]) }}">{{ $action->name }}</a>
@@ -19,7 +20,7 @@
             <input type="text" name="name"/>
             <label>Niceness:</label>
             <input type="text" name="niceness"/>
-            <button type="submit">Do a nice action</button>
+            <button type="submit" onclick="send(event)">Do a nice action</button>
             <input type="hidden" value="{{ Session::token() }}" name="_token">
         </form>
         <br><br><br>
@@ -40,5 +41,16 @@
              <a href="{{ $logged_actions->url($i) }}">{{ $i }}</a>
             @endfor
         @endif
+        <script type="text/javascript">
+            function send(event)
+            {
+                event.preventDefault();
+                $.ajax({
+                    type: "POST",
+                    url: "{{ route('add_action') }}",
+                    data: {name: $("#name").val(), niceness: $("#niceness").val(), _token: "{{ Session::token() }}" }
+                });
+            }
+        </script>
     </div>
-@endsection
+@endsection 

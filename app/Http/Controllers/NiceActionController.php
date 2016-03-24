@@ -43,7 +43,10 @@ class NiceActionController extends Controller{
             
             $actions = NiceAction::all();
             
-        return Redirect()->route('home');
+            if ($request->ajax()) {
+                return response()->json();
+            }
+        return Redirect()->route('home',['actions' => $actions]);
     }
     
     private function transformName($name)
