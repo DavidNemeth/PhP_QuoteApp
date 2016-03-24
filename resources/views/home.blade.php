@@ -22,5 +22,23 @@
             <button type="submit">Do a nice action</button>
             <input type="hidden" value="{{ Session::token() }}" name="_token">
         </form>
+        <br><br><br>
+        <ul>
+            @foreach($logged_actions as $logged_action)
+            <li>
+                {{ $logged_action->nice_action->name }}
+                @foreach($logged_action->nice_action->categories as $category)
+                
+                {{ $category->name }}
+                
+                @endforeach
+            </li>
+            @endforeach
+        </ul>
+        @if($logged_actions->lastPage() > 1)
+            @for($i = 1; $i <= $logged_actions->lastPage(); $i++)
+             <a href="{{ $logged_actions->url($i) }}">{{ $i }}</a>
+            @endfor
+        @endif
     </div>
 @endsection
