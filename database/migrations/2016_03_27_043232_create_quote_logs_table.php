@@ -26,6 +26,6 @@ class CreateQuoteLogsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('quote_logs');
+        Schema::drop('quote_log');
     }
 }
